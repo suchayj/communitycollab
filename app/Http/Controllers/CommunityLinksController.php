@@ -6,13 +6,14 @@ use App\channel;
 use App\communitylink;
 use Illuminate\Http\Request;
 
-
 class CommunityLinksController extends Controller
 {
     public function index()
     {
-        $links = communitylink::paginate(25);
+        $links = communitylink::where('approved',1)->paginate(25);
         $channels = channel::orderBy('title','asc')->get();
+
+
         return view('community.index',compact('links','channels'));
     }
 
@@ -24,7 +25,8 @@ class CommunityLinksController extends Controller
             'link' => 'required|active_url|unique:community_links',
         ]);
 
-        CommunityLink::from(auth()->user())
+        CommunityLink::from(
+            auth()->user())
             ->contribute($request->all());
 
 
