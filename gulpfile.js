@@ -12,5 +12,20 @@ var elixir = require('laravel-elixir');
  */
 
 elixir(function(mix) {
-    mix.sass('app.scss');
+
+	var npmDir  =   'node_modules/',
+        jsDir   =   'resources/assets/js',
+        cssDir  =   'resources/assets/css';
+
+    mix.copy(npmDir + 'sweetalert/dist/sweetalert.min.js', jsDir);
+    mix.copy(npmDir + 'sweetalert/dist/sweetalert.css', cssDir);
+
+	mix.scripts([
+        'sweetalert.min.js'
+    ], 'public/js/app.js');
+
+    mix.styles([
+        'sweetalert.css',
+    ], 'public/css/app.css');
+
 });
