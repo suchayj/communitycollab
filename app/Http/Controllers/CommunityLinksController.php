@@ -13,6 +13,8 @@ class CommunityLinksController extends Controller
         $links = communitylink::where('approved',1)->paginate(25);
         $channels = channel::orderBy('title','asc')->get();
 
+        flash()->success('Success', 'Flash Added');
+
 
         return view('community.index',compact('links','channels'));
     }
