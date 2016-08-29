@@ -20,6 +20,8 @@ class CommunityLinksController extends Controller
         $links = communitylink::where('approved', 1)->latest('updated_at')->paginate(3);
         $channels = Channel::orderBy('title', 'asc')->get();
 
+        flash()->success('Success', 'Flash Added');
+
 
         return view('community.index', compact('links','channels'));
     }
