@@ -28,4 +28,26 @@ class User extends Authenticatable
     {
         return !!$this->trusted;
     }
+
+    public function votes()
+    {
+        return $this->belongsToMany(CommunityLinks::class, 'community_links_votes')
+            ->withTimestamps();
+    }
+
+    public function voteFor(communityLink $link)
+    {
+      return  $this->votes()->sync([$link->id], false);
+    }
+
+    public function unvoteFor(communityLink $link)
+    {
+        return  $this->votes()->detach($link);
+    }
+
+
+    public function votedFor(CommunityLink $link)
+    {
+        return $link->votes->contains('user_id', $this->id);
+    }
 }

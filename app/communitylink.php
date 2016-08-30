@@ -45,6 +45,22 @@ class communitylink extends Model
    }
 
    /**
+    * Scope the query to record from perticular channel.
+    *
+    * @param Builder $builder
+    * @param Channel $channel
+    * @return Builder
+    */
+   public function scopeForChannel($builder, $channel)
+   {
+      if ($channel->exists){
+          return $builder->where('channel_id', '$channel->id');
+      }
+
+      return $builder;
+   }
+
+   /**
     * mark the community link as approved.
     *
     * @return $this
@@ -64,6 +80,16 @@ class communitylink extends Model
    public function channel()
    {
       return $this->belongsTo(channel::class);
+   }
+
+   /**
+    * A community links may have many votes.
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\HasMany
+    */
+   public function votes()
+   {
+      return $this->hasMany(CommunitylinkVote::class, 'community_link_id');
    }
 
    /**

@@ -16,14 +16,18 @@ class CommunityLinksController extends Controller
      */
     public function index(Channel $channel = null)
     {
-//        dd($channel);
-        $links = communitylink::where('approved', 1)->latest('updated_at')->paginate(3);
+        $links = communitylink::with('votes')->forChannel ($channel)
+            ->where('approved', 1)
+            ->latest('updated_at')
+            ->paginate(3);
+
+//         dd($links);
         $channels = Channel::orderBy('title', 'asc')->get();
 
         flash()->success('Success', 'Flash Added');
 
 
-        return view('community.index', compact('links','channels'));
+        return view('community.index', compact('links','channels','channel'));
     }
 
     /**
