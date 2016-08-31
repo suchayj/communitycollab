@@ -6,6 +6,7 @@ use App\channel;
 use App\communitylink;
 use App\Exceptions\CommunityLinkAlreadySubmitted;
 use App\Http\Requests\CommunityLinkForm;
+use App\Queries\CommunityLinksQuery;
 use Illuminate\Http\Request;
 
 class CommunityLinksController extends Controller
@@ -16,15 +17,15 @@ class CommunityLinksController extends Controller
      */
     public function index(Channel $channel = null)
     {
-        $links = communitylink::with('votes')->forChannel ($channel)
-            ->where('approved', 1)
-            ->latest('updated_at')
-            ->paginate(3);
+
+         $links = (new CommunityLinksQuery)->get(
+            request()->exists('popular'),  $channel
+         );
 
 //         dd($links);
         $channels = Channel::orderBy('title', 'asc')->get();
 
-        flash()->success('Success', 'Flash Added');
+//        flash()->success('Success', 'Flash Added');
 
 
         return view('community.index', compact('links','channels','channel'));

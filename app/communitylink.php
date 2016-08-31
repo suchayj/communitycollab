@@ -9,10 +9,10 @@ class communitylink extends Model
 {
    protected $table = 'community_links';
    protected $fillable =
-       ['channel_id',
-        'title',
-        'link'
-       ];
+                      ['channel_id',
+                       'title',
+                       'link'
+                      ];
 
    public static function from(User $user)
    {

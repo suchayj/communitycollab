@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -31,23 +32,21 @@ class User extends Authenticatable
 
     public function votes()
     {
-        return $this->belongsToMany(CommunityLinks::class, 'community_links_votes')
+        return $this->belongsToMany(CommunityLink::class, 'community_links_votes')
             ->withTimestamps();
     }
 
-    public function voteFor(communityLink $link)
+    public function toggleVoteFor(CommunityLink $link)
     {
-      return  $this->votes()->sync([$link->id], false);
+           CommunitylinkVote::firstOrNew([
+            'user_id' => $this->id,
+            'community_link_id' => $link->id
+        ])->toggle();
     }
-
-    public function unvoteFor(communityLink $link)
-    {
-        return  $this->votes()->detach($link);
-    }
-
 
     public function votedFor(CommunityLink $link)
     {
         return $link->votes->contains('user_id', $this->id);
     }
+
 }

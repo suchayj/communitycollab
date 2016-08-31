@@ -13,6 +13,18 @@
                           @endif
                       </h1>
 
+                        <ul class="nav nav-pills">
+                            <li class="{{ request()->exists('popular') ? '' : 'active' }}">
+                                <a href="/community">Most Recent</a>
+                            </li>
+
+
+                            <li class=" {{ request()->exists('popular') ? 'active' : '' }}">
+                                <a href="?popular">Most Popular</a>
+                            </li>
+
+                        </ul>
+
                         @include('community.list')
 
                     </div>
