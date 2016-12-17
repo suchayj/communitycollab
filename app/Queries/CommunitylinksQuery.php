@@ -2,26 +2,23 @@
 
 namespace App\Queries;
 
-
-use App\communitylink;
+use App\Communitylink;
 
 class CommunityLinksQuery
-
 {
     public function get($sortByPopular, $channel)
     {
             $orderBy = $sortByPopular ? 'votes_count' : 'updated_at';
 
             return CommunityLink::with('creator', 'channel')
+					->withCount('votes')
 
-            ->withCount('votes')
+					->forChannel($channel)
 
-            ->forChannel($channel)
+					->where('approved', 1)
 
-            ->where('approved', 1)
+					->orderBy($orderBy,'desc')
 
-            ->orderBy($orderBy,'desc')
-
-            ->paginate(3);
+					->paginate(3);
     }
 }

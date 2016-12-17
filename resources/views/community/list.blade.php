@@ -7,16 +7,16 @@
                 <form method="POST" action="/votes/{{ $link->id }}">
                     {{ csrf_field() }}
                     <button class="btn {{Auth::check() && Auth::user()->votedFor($link) ? 'btn-success' : 'btn-default' }}"
-                     {{ Auth::guest() ? 'disabled' : '' }}
+                            {{ Auth::guest() ? 'disabled' : '' }}
                     >
                         {{ $link->votes->count() }}
                     </button>
 
                 </form>
 
-                    <a href="#" class="label label-default" style="background: blue;margin-right: 1em">
-                        PHP
-                    </a>
+                <a href="#" class="label label-default" style="background: blue;margin-right: 1em">
+                    PHP
+                </a>
 
                 <a href="{{ $link->link }}" target="_blank">
                     {{ $link->title }}

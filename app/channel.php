@@ -4,17 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class channel extends Model
+class Channel extends Model
 {
-    protected $table = 'channels';
-    protected $fillable =
-        ['title',
-        'slug',
-        'color'
-        ];
+	protected $table = 'channels';
+	protected $fillable = ['title', 'slug', 'color'];
 
-    public function getRouteKeyName()
-    {
-        return 'slug';
-    }
+	public function getRouteKeyName()
+	{
+		return 'slug';
+	}
 }
